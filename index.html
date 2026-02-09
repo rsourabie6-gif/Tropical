@@ -410,6 +410,138 @@
             font-size: 0.9rem;
         }
 
+        /* Styles pour la publicité */
+        .advertisement {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border: 2px solid var(--primary-color);
+        }
+
+        .advertisement.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .ad-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .ad-close:hover {
+            color: var(--primary-color);
+        }
+
+        .ad-content {
+            text-align: center;
+            color: white;
+        }
+
+        .ad-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .ad-content p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .ad-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .ad-timer {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .ad-progress {
+            height: 100%;
+            background: var(--primary-color);
+            width: 100%;
+            animation: timer 10s linear forwards;
+        }
+
+        @keyframes timer {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        /* Styles pour les boissons */
+        .drink-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .drink-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .drink-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 30px;
+        }
+
+        .drink-info {
+            flex: 1;
+        }
+
+        .drink-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .drink-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .drink-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
         @media (max-width: 992px) {
             .header-container {
                 flex-direction: column;
@@ -441,6 +573,12 @@
             .order-section {
                 padding: 30px 20px;
             }
+            
+            .advertisement {
+                width: 300px;
+                right: 10px;
+                bottom: 10px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -461,12 +599,32 @@
             section {
                 padding: 60px 0;
             }
+            
+            .advertisement {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Arrière-plan avec image de restaurant -->
     <div class="background-image"></div>
+
+    <!-- Publicité -->
+    <div class="advertisement" id="advertisement">
+        <button class="ad-close" id="closeAd">×</button>
+        <div class="ad-content">
+            <img id="adImage" class="ad-image" src="" alt="Promotion">
+            <h3 id="adTitle"></h3>
+            <p id="adDescription"></p>
+            <div class="ad-price" id="adPrice"></div>
+            <div class="ad-timer">
+                <div class="ad-progress" id="adProgress"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- En-tête -->
     <header>
@@ -543,119 +701,94 @@
                                 </div>
                                 <div class="dish-price">3,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Sauce Gombo</h4>
-                                    <p>Sauce visqueuse avec viande ou poisson</p>
-                                </div>
-                                <div class="dish-price">3,200 FCFA</div>
-                            </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Riz Sauce Arachide</h4>
-                                    <p>Riz avec sauce à base d'arachide</p>
-                                </div>
-                                <div class="dish-price">2,800 FCFA</div>
-                            </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Foutou Banane</h4>
-                                    <p>Pâte de banane plantain avec sauce graine</p>
-                                </div>
-                                <div class="dish-price">3,000 FCFA</div>
-                            </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Thiéboudienne</h4>
-                                    <p>Riz au poisson et légumes</p>
-                                </div>
-                                <div class="dish-price">4,200 FCFA</div>
-                            </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Brochettes</h4>
-                                    <p>Brochettes de viande avec accompagnement</p>
-                                </div>
-                                <div class="dish-price">2,500 FCFA</div>
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Plats Spéciaux -->
+                    <!-- Boissons -->
                     <div class="menu-category">
                         <div class="category-header special">
-                            <h3>Plats Spéciaux</h3>
+                            <h3>Nos Boissons</h3>
                         </div>
                         <div class="dish-list">
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Poisson Capitaine Braisé</h4>
-                                    <p>Poisson frais grillé avec épices spéciales</p>
+                            <div class="drink-item">
+                                <i class="fas fa-cocktail drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Punch Tropical</h4>
+                                    <p>Mélange de fruits tropicaux frais avec rhum</p>
                                 </div>
-                                <div class="dish-price">7,500 FCFA</div>
+                                <div class="drink-price">3,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Lobster Tropical</h4>
-                                    <p>Langouste grillée avec sauce maison</p>
+                            <div class="drink-item">
+                                <i class="fas fa-wine-glass-alt drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Vin Rouge de Banfora</h4>
+                                    <p>Vin local de la région des Cascades</p>
                                 </div>
-                                <div class="dish-price">12,000 FCFA</div>
+                                <div class="drink-price">4,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Brochette de Gambas</h4>
-                                    <p>Crevettes géantes grillées aux épices</p>
+                            <div class="drink-item">
+                                <i class="fas fa-beer drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Brakina Spéciale</h4>
+                                    <p>Bière locale bien fraîche</p>
                                 </div>
-                                <div class="dish-price">9,000 FCFA</div>
+                                <div class="drink-price">1,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Couscous Royal</h4>
-                                    <p>Couscous avec viandes multiples</p>
+                            <div class="drink-item">
+                                <i class="fas fa-glass-whiskey drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Whisky local</h4>
+                                    <p>Whisky artisanal vieilli en fût de chêne</p>
                                 </div>
-                                <div class="dish-price">8,500 FCFA</div>
+                                <div class="drink-price">2,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Filet Mignon</h4>
-                                    <p>Filet de bœuf avec sauce au poivre vert</p>
+                            <div class="drink-item">
+                                <i class="fas fa-glass-cheers drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Cocktail Sans Alcool</h4>
+                                    <p>Mélange de jus de fruits frais maison</p>
                                 </div>
-                                <div class="dish-price">10,000 FCFA</div>
+                                <div class="drink-price">2,000 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Poulet aux Noix de Cajou</h4>
-                                    <p>Poulet sauté avec noix de cajou et légumes</p>
+                            <div class="drink-item">
+                                <i class="fas fa-coffee drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Café Touba</h4>
+                                    <p>Café sénégalais épicé traditionnel</p>
                                 </div>
-                                <div class="dish-price">6,500 FCFA</div>
+                                <div class="drink-price">1,000 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Paella Tropicale</h4>
-                                    <p>Riz espagnol aux fruits de mer et poulet</p>
+                            <div class="drink-item">
+                                <i class="fas fa-mug-hot drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Thé à la Menthe</h4>
+                                    <p>Thé vert à la menthe fraîche</p>
                                 </div>
-                                <div class="dish-price">9,500 FCFA</div>
+                                <div class="drink-price">1,200 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Rack d'Agneau</h4>
-                                    <p>Carré d'agneau rôti aux herbes de Provence</p>
+                            <div class="drink-item">
+                                <i class="fas fa-lemon drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Jus de Bissap</h4>
+                                    <p>Jus d'hibiscus frais et naturel</p>
                                 </div>
-                                <div class="dish-price">11,000 FCFA</div>
+                                <div class="drink-price">1,500 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Fondue Bourguignonne</h4>
-                                    <p>Viandes à fondue avec sauces variées</p>
+                            <div class="drink-item">
+                                <i class="fas fa-wine-bottle drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Eau Minérale</h4>
+                                    <p>Eau minérale naturelle</p>
                                 </div>
-                                <div class="dish-price">8,000 FCFA</div>
+                                <div class="drink-price">800 FCFA</div>
                             </div>
-                            <div class="dish">
-                                <div class="dish-info">
-                                    <h4>Plateau de Fruits de Mer</h4>
-                                    <p>Assortiment de fruits de mer frais</p>
+                            <div class="drink-item">
+                                <i class="fas fa-glass-martini-alt drink-icon"></i>
+                                <div class="drink-info">
+                                    <h4>Limonade Gingembre</h4>
+                                    <p>Limonade maison au gingembre frais</p>
                                 </div>
-                                <div class="dish-price">15,000 FCFA</div>
+                                <div class="drink-price">1,800 FCFA</div>
                             </div>
                         </div>
                     </div>
@@ -689,7 +822,7 @@
                                 <div class="form-group">
                                     <label for="dish">Plat désiré</label>
                                     <select id="dish" class="form-control" required>
-                                        <option value="">Sélectionnez un plat</option>
+                                        <option value="">Sélectionnez un plat ou une boisson</option>
                                         <!-- Plats ordinaires -->
                                         <optgroup label="Plats Ordinaires">
                                             <option value="Poulet Yassa - 4,500 FCFA">Poulet Yassa - 4,500 FCFA</option>
@@ -697,24 +830,19 @@
                                             <option value="Poulet Braisé - 4,000 FCFA">Poulet Braisé - 4,000 FCFA</option>
                                             <option value="Alloco - 2,500 FCFA">Alloco - 2,500 FCFA</option>
                                             <option value="Attiéké Poisson - 3,500 FCFA">Attiéké Poisson - 3,500 FCFA</option>
-                                            <option value="Sauce Gombo - 3,200 FCFA">Sauce Gombo - 3,200 FCFA</option>
-                                            <option value="Riz Sauce Arachide - 2,800 FCFA">Riz Sauce Arachide - 2,800 FCFA</option>
-                                            <option value="Foutou Banane - 3,000 FCFA">Foutou Banane - 3,000 FCFA</option>
-                                            <option value="Thiéboudienne - 4,200 FCFA">Thiéboudienne - 4,200 FCFA</option>
-                                            <option value="Brochettes - 2,500 FCFA">Brochettes - 2,500 FCFA</option>
                                         </optgroup>
-                                        <!-- Plats spéciaux -->
-                                        <optgroup label="Plats Spéciaux">
-                                            <option value="Poisson Capitaine Braisé - 7,500 FCFA">Poisson Capitaine Braisé - 7,500 FCFA</option>
-                                            <option value="Lobster Tropical - 12,000 FCFA">Lobster Tropical - 12,000 FCFA</option>
-                                            <option value="Brochette de Gambas - 9,000 FCFA">Brochette de Gambas - 9,000 FCFA</option>
-                                            <option value="Couscous Royal - 8,500 FCFA">Couscous Royal - 8,500 FCFA</option>
-                                            <option value="Filet Mignon - 10,000 FCFA">Filet Mignon - 10,000 FCFA</option>
-                                            <option value="Poulet aux Noix de Cajou - 6,500 FCFA">Poulet aux Noix de Cajou - 6,500 FCFA</option>
-                                            <option value="Paella Tropicale - 9,500 FCFA">Paella Tropicale - 9,500 FCFA</option>
-                                            <option value="Rack d'Agneau - 11,000 FCFA">Rack d'Agneau - 11,000 FCFA</option>
-                                            <option value="Fondue Bourguignonne - 8,000 FCFA">Fondue Bourguignonne - 8,000 FCFA</option>
-                                            <option value="Plateau de Fruits de Mer - 15,000 FCFA">Plateau de Fruits de Mer - 15,000 FCFA</option>
+                                        <!-- Boissons -->
+                                        <optgroup label="Boissons">
+                                            <option value="Punch Tropical - 3,500 FCFA">Punch Tropical - 3,500 FCFA</option>
+                                            <option value="Vin Rouge de Banfora - 4,500 FCFA">Vin Rouge de Banfora - 4,500 FCFA</option>
+                                            <option value="Brakina Spéciale - 1,500 FCFA">Brakina Spéciale - 1,500 FCFA</option>
+                                            <option value="Whisky local - 2,500 FCFA">Whisky local - 2,500 FCFA</option>
+                                            <option value="Cocktail Sans Alcool - 2,000 FCFA">Cocktail Sans Alcool - 2,000 FCFA</option>
+                                            <option value="Café Touba - 1,000 FCFA">Café Touba - 1,000 FCFA</option>
+                                            <option value="Thé à la Menthe - 1,200 FCFA">Thé à la Menthe - 1,200 FCFA</option>
+                                            <option value="Jus de Bissap - 1,500 FCFA">Jus de Bissap - 1,500 FCFA</option>
+                                            <option value="Eau Minérale - 800 FCFA">Eau Minérale - 800 FCFA</option>
+                                            <option value="Limonade Gingembre - 1,800 FCFA">Limonade Gingembre - 1,800 FCFA</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -732,6 +860,10 @@
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Adresse de livraison (optionnel)</label>
+                                    <textarea id="address" class="form-control" placeholder="Votre adresse pour la livraison" rows="2"></textarea>
                                 </div>
                                 <button type="submit" class="btn" style="width: 100%;" id="submitBtn">Commander</button>
                             </form>
@@ -806,16 +938,103 @@
     </footer>
 
     <script>
-        // URL de votre Google Apps Script (À REMPLACER PAR VOTRE URL)
-        // Pour obtenir cette URL:
-        // 1. Créez un nouveau Google Sheet
-        // 2. Allez dans Extensions > Apps Script
-        // 3. Collez le code Apps Script fourni ci-dessous
-        // 4. Cliquez sur Déployer > Nouveau déploiement
-        // 5. Choisissez "Type de déploiement: Application Web"
-        // 6. Configurez: Exécuter en tant que: Moi, Qui a accès: Tous
-        // 7. Cliquez sur Déployer et copiez l'URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTwo2yAVGO2Uj-30QiEwz5zR3jnZZDu4LA6LwojByhIV1lilkNLEQ3H5_RPoGGJPwd/exec';
+        // URL de votre Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP9nQ4emum_GuFwYZi8LhbICtPKf1JJrM0Cy_-tJMs0e9xPJJAdqVgbOMkDpweDNaZiQ/exec';
+        
+        // Données pour les publicités
+        const advertisements = [
+            {
+                title: "Poulet Yassa Spécial",
+                description: "Dégustez notre poulet yassa mariné 24h avec des oignons caramélisés",
+                price: "4,500 FCFA",
+                image: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                type: "plat"
+            },
+            {
+                title: "Punch Tropical",
+                description: "Notre cocktail signature à base de fruits frais et rhum",
+                price: "3,500 FCFA",
+                image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                type: "boisson"
+            },
+            {
+                title: "Plateau Mixte",
+                description: "Assortiment de plats locaux pour 2 personnes",
+                price: "9,000 FCFA",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                type: "plat"
+            },
+            {
+                title: "Vin Rouge de Banfora",
+                description: "Notre vin local exclusif, parfait pour accompagner vos plats",
+                price: "4,500 FCFA",
+                image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                type: "boisson"
+            },
+            {
+                title: "Dessert du Chef",
+                description: "Mousse à la mangue fraîche avec coulis de fruits rouges",
+                price: "2,500 FCFA",
+                image: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                type: "dessert"
+            }
+        ];
+        
+        let currentAdIndex = 0;
+        let adInterval;
+        
+        // Fonction pour afficher une publicité
+        function showAdvertisement(index) {
+            const ad = advertisements[index];
+            const adElement = document.getElementById('advertisement');
+            const adProgress = document.getElementById('adProgress');
+            
+            // Mettre à jour le contenu de la publicité
+            document.getElementById('adTitle').textContent = ad.title;
+            document.getElementById('adDescription').textContent = ad.description;
+            document.getElementById('adPrice').textContent = ad.price;
+            document.getElementById('adImage').src = ad.image;
+            document.getElementById('adImage').alt = ad.title;
+            
+            // Réinitialiser et relancer l'animation de la barre de progression
+            adProgress.style.animation = 'none';
+            void adProgress.offsetWidth; // Déclencher le reflow
+            adProgress.style.animation = 'timer 10s linear forwards';
+            
+            // Afficher la publicité
+            adElement.classList.add('show');
+            
+            // Arrêter le minuteur précédent et en démarrer un nouveau
+            if (adInterval) clearTimeout(adInterval);
+            
+            adInterval = setTimeout(() => {
+                adElement.classList.remove('show');
+                
+                // Afficher la prochaine publicité après 5 secondes
+                setTimeout(() => {
+                    currentAdIndex = (currentAdIndex + 1) % advertisements.length;
+                    showAdvertisement(currentAdIndex);
+                }, 5000);
+            }, 10000);
+        }
+        
+        // Fermer la publicité
+        document.getElementById('closeAd').addEventListener('click', function() {
+            const adElement = document.getElementById('advertisement');
+            adElement.classList.remove('show');
+            
+            // Afficher la prochaine publicité après 30 secondes
+            if (adInterval) clearTimeout(adInterval);
+            setTimeout(() => {
+                currentAdIndex = (currentAdIndex + 1) % advertisements.length;
+                showAdvertisement(currentAdIndex);
+            }, 30000);
+        });
+        
+        // Démarrer les publicités après 3 secondes
+        setTimeout(() => {
+            showAdvertisement(currentAdIndex);
+        }, 3000);
         
         // Gestion du formulaire de commande
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
@@ -824,7 +1043,7 @@
             // Désactiver le bouton pendant l'envoi
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Envoi en cours...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
             
             // Récupération des valeurs du formulaire
             const firstName = document.getElementById('firstName').value.trim();
@@ -832,6 +1051,7 @@
             const phone = document.getElementById('phone').value.trim();
             const dish = document.getElementById('dish').value;
             const quantity = document.getElementById('quantity').value;
+            const address = document.getElementById('address').value.trim();
             
             // Validation simple
             if (!firstName || !lastName || !phone || !dish) {
@@ -857,6 +1077,7 @@
                 phone: phone,
                 dish: dish,
                 quantity: quantity,
+                address: address || 'Non spécifiée',
                 timestamp: new Date().toLocaleString('fr-FR'),
                 status: 'Nouvelle commande'
             };
@@ -868,39 +1089,49 @@
                 
                 // Préparer les données pour l'envoi
                 const formData = new FormData();
+                formData.append('action', 'SAVE_ORDER');
                 formData.append('firstName', firstName);
                 formData.append('lastName', lastName);
                 formData.append('phone', phone);
                 formData.append('dish', dish);
                 formData.append('quantity', quantity);
+                formData.append('address', address || 'Non spécifiée');
                 formData.append('timestamp', new Date().toLocaleString('fr-FR'));
                 formData.append('status', 'Nouvelle commande');
                 
                 // Envoyer les données à Google Apps Script
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Mode no-cors pour éviter les problèmes CORS
+                    mode: 'no-cors',
                     body: formData
                 });
-                
-                // Note: En mode no-cors, nous ne pouvons pas lire la réponse
-                // Mais nous pouvons supposer que l'envoi a réussi
                 
                 // Simuler un délai pour l'envoi
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                // Afficher le message de succès
-                showNotification(`✅ Commande réussie! ${firstName}, votre commande de ${dish} (x${quantity}) a été enregistrée. Nous vous contacterons au ${phone} pour confirmation.`, 'success');
+                // Message de succès avec détails
+                const successMessage = `
+                    ✅ Commande enregistrée avec succès!<br><br>
+                    <strong>Récapitulatif:</strong><br>
+                    • Nom: ${firstName} ${lastName}<br>
+                    • Téléphone: ${phone}<br>
+                    • Commande: ${dish}<br>
+                    • Quantité: ${quantity}<br>
+                    • Adresse: ${address || 'À venir chercher sur place'}<br><br>
+                    <em>Vous recevrez un message de confirmation sous peu.</em>
+                `;
+                
+                showNotification(successMessage, 'success');
                 
                 // Réinitialiser le formulaire
                 document.getElementById('orderForm').reset();
                 
-                // Sauvegarder la commande localement (en cas de problème de connexion)
+                // Sauvegarder la commande localement
                 saveOrderLocally(orderData);
                 
             } catch (error) {
                 console.error('Erreur lors de l\'envoi de la commande:', error);
-                showNotification('⚠️ Une erreur est survenue lors de l\'envoi. Votre commande a été sauvegardée localement. Nous la traiterons dès que possible.', 'error');
+                showNotification('⚠️ Votre commande a été sauvegardée localement. Nous la traiterons dès que possible.', 'error');
                 
                 // Sauvegarder localement en cas d'erreur
                 saveOrderLocally(orderData);
@@ -914,14 +1145,14 @@
         // Fonction pour afficher les notifications
         function showNotification(message, type) {
             const notification = document.getElementById('notification');
-            notification.textContent = message;
+            notification.innerHTML = message;
             notification.className = `notification ${type}`;
             notification.style.display = 'block';
             
-            // Masquer la notification après 8 secondes
+            // Masquer la notification après 10 secondes
             setTimeout(() => {
                 notification.style.display = 'none';
-            }, 8000);
+            }, 10000);
         }
         
         // Sauvegarder la commande localement
@@ -936,7 +1167,7 @@
             }
         }
         
-        // Synchroniser les commandes locales avec Google Sheets (si nécessaire)
+        // Synchroniser les commandes locales avec Google Sheets
         async function syncLocalOrders() {
             try {
                 const orders = JSON.parse(localStorage.getItem('tropicalRestaurantOrders')) || [];
@@ -944,38 +1175,36 @@
                 if (orders.length > 0) {
                     console.log(`${orders.length} commande(s) à synchroniser`);
                     
-                    // Pour chaque commande locale, essayer de l'envoyer à Google Sheets
                     for (let i = 0; i < orders.length; i++) {
                         const order = orders[i];
                         
                         try {
                             const formData = new FormData();
+                            formData.append('action', 'SAVE_ORDER');
                             formData.append('firstName', order.firstName);
                             formData.append('lastName', order.lastName);
                             formData.append('phone', order.phone);
                             formData.append('dish', order.dish);
                             formData.append('quantity', order.quantity);
+                            formData.append('address', order.address);
                             formData.append('timestamp', order.timestamp);
                             formData.append('status', order.status);
                             
-                            // Envoyer à Google Sheets
                             await fetch(GOOGLE_SCRIPT_URL, {
                                 method: 'POST',
                                 mode: 'no-cors',
                                 body: formData
                             });
                             
-                            // Si l'envoi réussit, retirer la commande du localStorage
                             orders.splice(i, 1);
                             i--;
                             
                             console.log('Commande synchronisée:', order);
                         } catch (error) {
-                            console.error('Erreur lors de la synchronisation d\'une commande:', error);
+                            console.error('Erreur lors de la synchronisation:', error);
                         }
                     }
                     
-                    // Mettre à jour le localStorage
                     localStorage.setItem('tropicalRestaurantOrders', JSON.stringify(orders));
                 }
             } catch (error) {
@@ -985,6 +1214,9 @@
         
         // Synchroniser les commandes au chargement de la page
         window.addEventListener('load', syncLocalOrders);
+        
+        // Synchroniser toutes les 5 minutes
+        setInterval(syncLocalOrders, 300000);
         
         // Animation pour la navigation
         document.querySelectorAll('nav a').forEach(link => {
@@ -1022,18 +1254,38 @@
             if (orders.length > 0) {
                 console.log(`${orders.length} commande(s) en attente de synchronisation.`);
                 
-                // Optionnel: Afficher une notification discrète
-                if (orders.length > 0) {
-                    const notification = document.getElementById('notification');
-                    notification.textContent = `⚠️ ${orders.length} commande(s) en attente de synchronisation.`;
-                    notification.className = 'notification error';
-                    notification.style.display = 'block';
-                    
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 5000);
-                }
+                const notification = document.getElementById('notification');
+                notification.textContent = `⚠️ ${orders.length} commande(s) en attente de synchronisation.`;
+                notification.className = 'notification error';
+                notification.style.display = 'block';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
             }
+        });
+        
+        // Ajouter des écouteurs d'événements pour améliorer l'expérience utilisateur
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+        });
+        
+        // Ajouter un effet de chargement pour les images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+            
+            img.style.transition = 'opacity 0.3s';
+            img.style.opacity = '0';
         });
     </script>
 </body>
